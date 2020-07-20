@@ -11,14 +11,19 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: '90%',
+    maxWidth: '100%',
     marginTop: 20
   },
   media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+    minHeight: 0,
+    height: 'auto',
+    width: '100%',
+    minWidth: 200,
+    paddingTop: '100%', 
+    objectFit: 'contain'
   },
   expandOpen: {
     transform: 'rotate(180deg)',
@@ -28,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Post() {
+export default function Post({ post }) {
   const classes = useStyles();
+  
 
   return (
     <Card className={classes.root}>
@@ -44,13 +50,12 @@ export default function Post() {
       />
       <CardMedia
         className={classes.media}
-        image="/static/images/cards/paella.jpg"
-        title="Paella dish"
+        image={post.postUrl}
+        alt='Image'
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook together with your
-          guests. Add 1 cup of frozen peas along with the mussels, if you like.
+          {post.caption}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

@@ -24,7 +24,7 @@ export default function ButtonAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color='trasnparent'>
+      <AppBar position="static" color='transparent'>
         <CssBaseline>
           <Container maxWidth='md'>
             <Toolbar>
