@@ -45,15 +45,17 @@ export default function Post({ post }) {
             R
           </Avatar>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={post.username}
       />
       <CardMedia
         className={classes.media}
         image={post.postUrl}
         alt='Image'
       />
-      <CardContent>
+      <CardContent style={{display: 'flex'}}>
+        <Typography style={{marginRight: 10}} variant="body2" color='textPrimary' component='h5'>
+          {post.username}
+        </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
           {post.caption}
         </Typography>

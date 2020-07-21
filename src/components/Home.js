@@ -19,11 +19,13 @@ const useStyles = makeStyles((theme) => ({
 
 function Home() {
   const [ posts, setPosts ] = useState([])
+
   useEffect(() => {
     db.collection('posts').onSnapshot(snapShot => {
-      setPosts(snapShot.docs.map(doc => doc.data()))
+      setPosts(snapShot.docs.map(doc => ({id: doc.id, post: doc.data()})))
     })  
   }, [])
+
   
   const classes = useStyles();
   return (
@@ -33,8 +35,8 @@ function Home() {
         </Grid>
         <Grid item xs={12} sm={5}>
           {
-            posts.map((post, i) => (
-              <Post post={post} key={i}/>
+            posts.map(({post, id}) => (
+              <Post post={post} key={id}/>
             ))
           }
         </Grid>

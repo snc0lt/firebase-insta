@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,6 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { auth } from '../Config'
+import { UserContext } from '../context/user'
 
 function Copyright() {
   return (
@@ -58,6 +61,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
+  const { dispatch } = useContext(UserContext)
+  const history = useHistory()
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
+
+  const onLogin = (e) => {
+    e.preventDefault()
+    auth.signInWithEmailAndPassword(email, password)
+    dispatch({ type: 'SET_USER'})
+    history.push('/')
+  }
+
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -71,10 +86,10 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={onLogin}>
             <TextField
-              variant="outlined"
-              margin="normal"
+              variant="outlined" value={email}
+              margin="normal" onChange={e => setEmail(e.target.value)}
               required
               fullWidth
               id="email"
@@ -84,8 +99,8 @@ export default function Login() {
               autoFocus
             />
             <TextField
-              variant="outlined"
-              margin="normal"
+              variant="outlined" value={password}
+              margin="normal" onChange={e => setPassword(e.target.value)}
               required
               fullWidth
               name="password"

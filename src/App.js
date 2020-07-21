@@ -6,18 +6,21 @@ import Home from './components/Home';
 import Explore from './components/Explore';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
+import UserContextProvider from "./context/user";
 
 
 function App() {
   return (
     <Router>
-     <AppBar />
-     <Switch>
-       <Route exact path='/' component={Home} />
-       <Route exact path='/explore' component={Explore} />
-       <Route exact path='/signup' component={SignUp} />
-       <Route exact path='/login' component={Login} />
-     </Switch>
+      <UserContextProvider>
+        <AppBar />
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/explore' component={Explore} />
+          <Route exact path='/signup' component={SignUp} />
+          <Route exact path='/login' component={Login} />
+        </Switch>
+      </UserContextProvider>
     </Router>
   );
 }
