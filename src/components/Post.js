@@ -15,18 +15,15 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: '100%',
-    marginTop: 20
+    marginTop: 20,
+    height: 'auto',
   },
   media: {
     minHeight: 0,
     height: 'auto',
     width: '100%',
-    minWidth: 200,
     paddingTop: '100%', 
     objectFit: 'contain'
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
   },
   avatar: {
     backgroundColor: red[500],
@@ -35,8 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Post({ post }) {
   const classes = useStyles();
-  
-
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -45,19 +40,19 @@ export default function Post({ post }) {
             R
           </Avatar>
         }
-        title={post.username}
+        title={post && post.username}
       />
       <CardMedia
         className={classes.media}
-        image={post.postUrl}
+        image={post && post.postUrl}
         alt='Image'
       />
       <CardContent style={{display: 'flex'}}>
         <Typography style={{marginRight: 10}} variant="body2" color='textPrimary' component='h5'>
-          {post.username}
+          {post && post.username}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          {post.caption}
+          {post && post.caption}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

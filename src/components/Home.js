@@ -21,7 +21,7 @@ function Home() {
   const [ posts, setPosts ] = useState([])
 
   useEffect(() => {
-    db.collection('posts').onSnapshot(snapShot => {
+    db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapShot => {
       setPosts(snapShot.docs.map(doc => ({id: doc.id, post: doc.data()})))
     })  
   }, [])
@@ -36,7 +36,7 @@ function Home() {
         <Grid item xs={12} sm={5}>
           {
             posts.map(({post, id}) => (
-              <Post post={post} key={id}/>
+              <Post post={post} key={id} id={id}/>
             ))
           }
         </Grid>
