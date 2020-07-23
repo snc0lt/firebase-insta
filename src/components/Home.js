@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles'
 import { db } from "../Config";
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Home() {
   const [ posts, setPosts ] = useState([])
-
+  
   useEffect(() => {
     db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapShot => {
       setPosts(snapShot.docs.map(doc => ({id: doc.id, post: doc.data()})))

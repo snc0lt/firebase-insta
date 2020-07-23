@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { auth } from '../Config'
-import { UserContext } from '../context/user'
+
 
 function Copyright() {
   return (
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-  const { dispatch } = useContext(UserContext)
+  
   const history = useHistory()
   const classes = useStyles();
   const [ email, setEmail ] = useState('')
@@ -72,9 +72,7 @@ export default function SignUp() {
     auth.createUserWithEmailAndPassword(email, password)
     .then(user => {
       user.user.updateProfile({displayName: username})
-      dispatch({type: 'SET_USER', user: user.user})
       history.push('/login')
-      console.log(user.user)
     })
     .catch(error => alert(error.message))
   }
@@ -120,7 +118,6 @@ export default function SignUp() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
             />
             <Button
               type="submit"

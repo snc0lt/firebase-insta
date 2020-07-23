@@ -5,10 +5,8 @@ import { UserContext } from "../context/user";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography'
-// import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
-// import Grid from '@material-ui/core/Grid'
-// import Paper from '@material-ui/core/Paper'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -39,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function PostForm({ handleClose }) {
+function PostForm() {
   const classes = useStyles()
-
-  const { myUser } = useContext(UserContext)
+  const history = useHistory()
+  const { currentUser } = useContext(UserContext)
   const [image, setImage] = useState(null)
   const [progress, setProgress] = useState(null)
   const [caption, setcaption] = useState('')
@@ -52,10 +50,9 @@ function PostForm({ handleClose }) {
       setImage(e.target.files[0])
     }
   }
-  const handleUpload = async () => {
-    
+  const handleUpload = () => {
       if (image) {
-        await storage.ref(`images/${image.name}`).put(image)
+        storage.ref(`images/${image.name}`).put(image)
         .on(
           'state_changed',
           (snapshot) => {
@@ -64,17 +61,15 @@ function PostForm({ handleClose }) {
             )
             setProgress(progress)
           },
-          (error) => {
-            console.log(error)
-          },
-          async () => {
-            await storage.ref('images').child(image.name).getDownloadURL()
+          (error) => console.log(error),
+          () => {
+            storage.ref('images').child(image.name).getDownloadURL()
               .then(url => {
                 db.collection('posts').add({
                   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                   caption,
                   postUrl: url,
-                  username: myUser.displayName
+                  username: currentUser.displayName
                 })
                 setProgress(0)
                 setcaption('')
@@ -82,8 +77,8 @@ function PostForm({ handleClose }) {
               })
           }
         )
+        history.push('/home')
       }
-    handleClose()
   }
   return (
     <div className={classes.paper}>

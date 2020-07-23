@@ -9,7 +9,9 @@ import { CssBaseline, Container } from '@material-ui/core';
 import { UserContext } from "../context/user";
 import { auth } from '../Config';
 import { useHistory } from "react-router-dom";
-import PostDialog from './PostDialog';
+import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip'
+import Fab from '@material-ui/core/Fab';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,19 +24,20 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  fab: {
+    margin: theme.spacing(1),
+  }
 }));
 
 export default function ButtonAppBar() {
   const history = useHistory()
   const classes = useStyles()
-  const { myUser, dispatch } = useContext(UserContext)
+  const { currentUser } = useContext(UserContext)
 
   const onLogOut = () => {
     auth.signOut()
-    dispatch({ type: 'LOGOUT_USER' })
     history.push('/login')
   }
-
   return (
     <div className={classes.root}>
       <AppBar position="static" color='transparent'>
@@ -42,14 +45,20 @@ export default function ButtonAppBar() {
           <Container maxWidth='md'>
             <Toolbar>
               <Typography variant="h6" className={classes.title}>
-                <Link className='button_link' to='/'>
+                <Link className='button_link fake' to='/home'>
                   fakestagram
                 </Link>
               </Typography>
               {
-                myUser ? (
+                currentUser ? (
                   <>
-                    <PostDialog />
+                    <Tooltip title='post'>
+                      <Link className='button_link' to='/post'>
+                        <Fab color="primary" size='small' className={classes.fab}>
+                          <AddIcon />
+                        </Fab>
+                      </Link>
+                    </Tooltip>
                     <Button onClick={onLogOut}>
                       Logout
                     </Button>

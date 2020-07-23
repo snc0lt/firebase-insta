@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -61,16 +61,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
-  const { dispatch } = useContext(UserContext)
-  const history = useHistory()
+  const { currentUser } = useContext(UserContext)
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
 
   const onLogin = (e) => {
     e.preventDefault()
     auth.signInWithEmailAndPassword(email, password)
-    dispatch({ type: 'SET_USER'})
-    history.push('/')
+  }
+
+  if(currentUser){
+    return <Redirect to='/home' />
   }
 
 
@@ -107,7 +108,6 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
             />
             <Button
               type="submit"

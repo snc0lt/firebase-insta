@@ -7,15 +7,19 @@ import Explore from './components/Explore';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import UserContextProvider from "./context/user";
+import PrivateRoute from './components/PrivateRoute';
+import PostForm from './components/PostForm';
 
 
 function App() {
+  
   return (
     <Router>
       <UserContextProvider>
         <AppBar />
         <Switch>
-          <Route exact path='/' component={Home} />
+          <PrivateRoute exact path='/home' component={Home} />
+          <PrivateRoute exact path='/post' component={PostForm} />
           <Route exact path='/explore' component={Explore} />
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/login' component={Login} />
